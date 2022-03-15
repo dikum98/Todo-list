@@ -1,0 +1,65 @@
+@import './base/reset';
+
+body {
+  font-family: 'Hubballi', cursive;
+  height: 100vh;
+  background: url('../images/background.png') no-repeat center/100%;
+  background-size: cover;
+  text-align: center;
+  color: wheat;
+}
+
+.title {
+  font-size: 60px;
+  letter-spacing: 2px;
+  padding: 70px 0 20px 0;
+}
+
+.descriptuon {
+  display: inline-block;
+  padding-bottom: 8px;
+  font-size: 20px;
+}
+
+.input-text {
+  display: inline-block;
+  background: none;
+  border-bottom: 1px solid wheat;
+  outline: none;
+  color: wheat;
+}
+
+.submit-btn {
+  color: wheat;
+}
+
+// task
+.task-container {
+  margin-top: 40px;
+}
+
+.task-list {
+  margin-bottom: 15px;
+}
+
+.task {
+  margin-right: 6px;
+  outline: none;
+  background: none;
+  color: wheat;
+  border-bottom: 1px solid wheat;
+}
+
+.edit {
+  color: wheat;
+  margin-right: 6px;
+}
+
+.delete {
+  color: wheat;
+}
+
+.clear-btn {
+  margin-top: 20px;
+  color: wheat;
+}
