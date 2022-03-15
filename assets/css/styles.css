@@ -21,7 +21,7 @@ code {
 *::before,
 *::after {
   -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+          box-sizing: border-box;
   margin: 0;
   padding: 0;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -44,8 +44,7 @@ a {
   text-decoration: none;
 }
 
-a:hover,
-a:focus {
+a:hover, a:focus {
   text-decoration: none;
 }
 
@@ -126,8 +125,7 @@ textarea:-ms-input-placeholder {
   opacity: 1;
 }
 
-input[readonly]::-webkit-input-placeholder,
-input:disabled::-webkit-input-placeholder,
+input[readonly]::-webkit-input-placeholder, input:disabled::-webkit-input-placeholder,
 textarea[readonly]::-webkit-input-placeholder,
 textarea:disabled::-webkit-input-placeholder {
   /* Chrome, Safari, Firefox */
@@ -135,8 +133,7 @@ textarea:disabled::-webkit-input-placeholder {
   opacity: 1;
 }
 
-input[readonly]:-ms-input-placeholder,
-input:disabled:-ms-input-placeholder,
+input[readonly]:-ms-input-placeholder, input:disabled:-ms-input-placeholder,
 textarea[readonly]:-ms-input-placeholder,
 textarea:disabled:-ms-input-placeholder {
   /* Chrome, Safari, Firefox */
@@ -144,8 +141,7 @@ textarea:disabled:-ms-input-placeholder {
   opacity: 1;
 }
 
-input[readonly]::-ms-input-placeholder,
-input:disabled::-ms-input-placeholder,
+input[readonly]::-ms-input-placeholder, input:disabled::-ms-input-placeholder,
 textarea[readonly]::-ms-input-placeholder,
 textarea:disabled::-ms-input-placeholder {
   /* Chrome, Safari, Firefox */
@@ -153,8 +149,7 @@ textarea:disabled::-ms-input-placeholder {
   opacity: 1;
 }
 
-input[readonly]::placeholder,
-input:disabled::placeholder,
+input[readonly]::placeholder, input:disabled::placeholder,
 textarea[readonly]::placeholder,
 textarea:disabled::placeholder {
   /* Chrome, Safari, Firefox */
@@ -162,8 +157,7 @@ textarea:disabled::placeholder {
   opacity: 1;
 }
 
-input[readonly]:-ms-input-placeholder,
-input:disabled:-ms-input-placeholder,
+input[readonly]:-ms-input-placeholder, input:disabled:-ms-input-placeholder,
 textarea[readonly]:-ms-input-placeholder,
 textarea:disabled:-ms-input-placeholder {
   /* IE, Edge */
@@ -171,16 +165,14 @@ textarea:disabled:-ms-input-placeholder {
   opacity: 1;
 }
 
-input::-ms-clear,
-input::-ms-reveal,
+input::-ms-clear, input::-ms-reveal,
 textarea::-ms-clear,
 textarea::-ms-reveal {
   /* IE, Edge */
   display: none;
 }
 
-input::-webkit-inner-spin-button,
-input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button, input::-webkit-outer-spin-button,
 textarea::-webkit-inner-spin-button,
 textarea::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -189,7 +181,7 @@ textarea::-webkit-outer-spin-button {
 body {
   font-family: 'Hubballi', cursive;
   height: 100vh;
-  background: url('../images/background.png') no-repeat center/100%;
+  background: url("../images/background.png") no-repeat center/100%;
   background-size: cover;
   text-align: center;
   color: wheat;

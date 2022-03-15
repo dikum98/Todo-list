@@ -83,3 +83,4 @@ printToDoList();
 $submitBtn.addEventListener('click', insertToDoItem);
 $taskContainer.addEventListener('click', removeToDoItem);
 $clearBtn.addEventListener('click', clearWholeList);
+// .
