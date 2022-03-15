@@ -12,10 +12,15 @@ function createToDoItem(task) {
   const $li = document.createElement('li');
   $li.className = 'task-list';
   const $input = document.createElement('input');
+  $input.setAttribute('type', 'checkbox');
+  $input.setAttribute('name', 'toDoItem');
   $input.className = 'task';
-  $input.setAttribute('value', task);
-  $input.readOnly = true;
   $li.appendChild($input);
+
+  const $label = document.createElement('label');
+  $label.setAttribute('for', 'toDoItem');
+  $label.innerText = task;
+  $li.appendChild($label);
 
   // create delete button
   const $$button = document.createElement('button');
@@ -40,7 +45,6 @@ function insertToDoItem(e) {
 
   toDoItemArr.push(task);
   myStorage.setItem('todo', toDoItemArr);
-  // console.log(toDoItemArr, myStorage);
 }
 
 // Remove ToDoItem from Todo list
@@ -55,7 +59,7 @@ function removeToDoItem(e) {
 
   toDoItemArr.splice(targetIndex, 1);
   myStorage.setItem('todo', toDoItemArr);
-  // console.log(toDoItemArr, myStorage);
+  console.log(myStorage, toDoItemArr);
 }
 
 function clearWholeList() {
@@ -76,11 +80,9 @@ function printToDoList() {
   for (const item of toDoItemArr) {
     $toDoList.appendChild(createToDoItem(item));
   }
-  // console.log(toDoItemArr);
 }
 printToDoList();
 
 $submitBtn.addEventListener('click', insertToDoItem);
 $taskContainer.addEventListener('click', removeToDoItem);
 $clearBtn.addEventListener('click', clearWholeList);
-// .

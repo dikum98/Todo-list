@@ -59,7 +59,6 @@ button:disabled {
 }
 
 select,
-input,
 textarea,
 button {
   -webkit-appearance: none;
@@ -221,9 +220,11 @@ body {
 
 .task {
   margin-right: 6px;
-  outline: none;
-  background: none;
-  color: wheat;
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 24px;
   border-bottom: 1px solid wheat;
 }
 
@@ -234,6 +235,7 @@ body {
 
 .delete {
   color: wheat;
+  margin-left: 6px;
 }
 
 .clear-btn {
