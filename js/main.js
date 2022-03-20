@@ -1,115 +1,181 @@
-const $inputBox = document.querySelector('#input-text');
-const $submitBtn = document.querySelector('#submit-btn');
-const $taskContainer = document.querySelector('#task-container');
-const $toDoList = document.querySelector('#todo-list');
-const $clearBtn = document.querySelector('#clear-btn');
+const getElement = (selector) => {
+  return document.querySelector(selector);
+};
 
-const myStorage = sessionStorage;
-let toDoItemArr = [];
+const URL = 'http://localhost:3000/todos';
+const $form = getElement('#form');
+const $todoContainer = getElement('#task-container');
+const $clearBtn = getElement('#clear-btn');
 
-// Create todo Item Element
-function createToDoElement(toDoInfo) {
+const createTodoElement = (item) => {
+  const { content, complete, id } = item;
+  const isChecked = complete ? 'checked' : '';
   const $fragment = document.createDocumentFragment();
-  const $li = document.createElement('li');
-  $li.className = 'task-list';
-  const $input = document.createElement('input');
-  $input.setAttribute('type', 'checkbox');
-  if (toDoInfo['checked'] === true) {
-    $input.setAttribute('checked', 'true');
-  } else {
-    $input.removeAttribute('checked');
-  }
-  $input.setAttribute('name', 'toDoItem');
-  $input.className = 'task';
-  $input.id = toDoInfo['id'];
-  $li.appendChild($input);
-
-  const $label = document.createElement('label');
-  $label.setAttribute('for', 'toDoItem');
-  $label.innerText = toDoInfo['text'];
-  $li.appendChild($label);
-
-  // create delete button
-  const $button = document.createElement('button');
-  $button.className = 'delete';
-  const $icon = document.createElement('i');
-  $icon.className = 'fa fa-solid fa-circle-minus';
-  $button.appendChild($icon);
-  $li.appendChild($button);
-
-  $fragment.appendChild($li);
+  const $todoItem = document.createElement('li');
+  $todoItem.className = 'todo-item';
+  $todoItem.dataset.id = id;
+  $todoItem.innerHTML = `
+  <input type="checkbox" ${isChecked} name="toDoItem" class="task" />
+  <label for="toDoItem">${content}</label>
+  <input type="text" class="edit-input" />
+  <button class="edit">
+  <i class="fa-solid fa-pen-to-square"></i>
+  </button>
+  <button class="delete">
+  <i class="fa fa-solid fa-circle-minus"></i>
+  </button>
+  <button class="edit-confirm">
+    <i class="fa-solid fa-check"></i>
+  </button>
+  <button class="edit-cancel">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+  `;
+  $fragment.appendChild($todoItem);
   return $fragment;
-}
+};
 
-// Check Todo Item is Done or Not
-function checkDoneTask(e) {
-  for (const item of toDoItemArr) {
-    if (e.target.id === item['id']) {
-      if (e.target.checked === false) {
-        item['checked'] = false;
-      } else {
-        item['checked'] = true;
-      }
-    }
-    saveToDoInfo();
+const request = {
+  post(url, payload) {
+    return fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  },
+  patch(url, payload) {
+    return fetch(url, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  },
+  delete(url) {
+    return fetch(url, { method: 'DELETE' });
+  },
+};
+
+const renderTodos = (todos) => {
+  const $todoList = getElement('#todo-list');
+  $todoList.innerHTML = '';
+  for (const item of todos) {
+    $todoList.appendChild(createTodoElement(item));
   }
-}
+};
 
-// Insert ToDoItem into Todo list
-function insertToDoItem(e) {
+const getTodos = () => {
+  fetch(URL)
+    .then((response) => response.json())
+    .then((todos) => renderTodos(todos))
+    .catch((error) => console.error(error.message));
+};
+
+const addTodoItem = (e) => {
   e.preventDefault();
-  const taskInput = $inputBox.value;
-  if (!taskInput) return;
-  const toDoInfo = {
-    text: taskInput,
-    id: new Date(),
-    checked: false,
+  const $todoInput = getElement('#input-text');
+  if (!$todoInput.value) return;
+  const todoItem = {
+    content: $todoInput.value,
+    complete: false,
   };
-  $inputBox.value = '';
-  toDoItemArr.push(toDoInfo);
-  saveToDoInfo();
-  $toDoList.appendChild(createToDoElement(toDoInfo));
-}
 
-// Save Information on Session Storage
-function saveToDoInfo() {
-  myStorage.setItem('todo', JSON.stringify(toDoItemArr));
-}
+  request
+    .post(URL, todoItem)
+    .then(getTodos)
+    .then(() => {
+      $todoInput.value = '';
+      $todoInput.focus();
+    })
+    .catch((error) => console.error(error.message));
+};
 
-// Remove ToDoItem from Todo list
-function removeToDoItem(e) {
-  if (e.target.parentNode.className !== 'delete') return;
-  const target = e.target.parentNode.previousSibling.parentNode;
-  const targetIndex = Array.prototype.indexOf.call(
-    $toDoList.childNodes,
-    target
+const deleteTodoItem = (e) => {
+  if (e.target.className !== 'delete') return;
+  const $item = e.target.closest('.todo-item');
+  const id = $item.dataset.id;
+
+  request
+    .delete(`${URL}/${id}`)
+    .then(getTodos)
+    .catch((error) => console.error(error.message));
+};
+
+const checkTodoComplete = (e) => {
+  if (e.target.className !== 'task') return;
+  const $item = e.target.closest('.todo-item');
+  const id = $item.dataset.id;
+  const isChecked = e.target.checked;
+
+  request
+    .patch(`${URL}/${id}`, { complete: isChecked })
+    .then(getTodos)
+    .catch((error) => console.error(error.message));
+};
+
+const clearAllTodos = () => {
+  const ids = [...document.querySelectorAll('.todo-item')].map(
+    (v) => +v.dataset.id
   );
-  $toDoList.removeChild(target);
+  ids.forEach((id) =>
+    request
+      .delete(`${URL}/${id}`)
+      .then(getTodos)
+      .catch((error) => console.error(error.message))
+  );
+};
 
-  toDoItemArr.splice(targetIndex, 1);
-  myStorage.setItem('todo', JSON.stringify(toDoItemArr));
-}
+const changeEditMode = (e) => {
+  const $item = e.target.closest('.todo-item');
+  const $label = $item.querySelector('label');
+  const $editInput = $item.querySelector('.edit-input');
+  const $editBtn = $item.querySelector('.edit');
+  const $deleteBtn = $item.querySelector('.delete');
+  const $editConfirmBtn = $item.querySelector('.edit-confirm');
+  const $editCancelBtn = $item.querySelector('.edit-cancel');
 
-// Clear Whole List
-function clearWholeList() {
-  toDoItemArr = [];
-  myStorage.clear();
-  $toDoList.innerHTML = '';
-}
-
-// Print To Do List on Page
-function printToDoList() {
-  const getToDoInfo = myStorage.getItem('todo');
-  if (!getToDoInfo) return;
-  const parsedToDoInfo = JSON.parse(getToDoInfo);
-  toDoItemArr = parsedToDoInfo;
-  for (const item of toDoItemArr) {
-    $toDoList.appendChild(createToDoElement(item));
+  if (e.target.className === 'edit') {
+    $editBtn.style.display = 'none';
+    $deleteBtn.style.display = 'none';
+    $editConfirmBtn.style.display = 'inline-block';
+    $editCancelBtn.style.display = 'inline-block';
+    $label.style.display = 'none';
+    $editInput.style.display = 'inline-block';
+    $editInput.value = $label.innerText;
+    $editInput.focus();
   }
-}
-printToDoList();
 
-$submitBtn.addEventListener('click', insertToDoItem);
-$toDoList.addEventListener('click', removeToDoItem);
-$toDoList.addEventListener('click', checkDoneTask);
-$clearBtn.addEventListener('click', clearWholeList);
+  if (e.target.className === 'edit-cancel') {
+    $editBtn.style.display = 'inline-block';
+    $deleteBtn.style.display = 'inline-block';
+    $editConfirmBtn.style.display = 'none';
+    $editCancelBtn.style.display = 'none';
+    $label.style.display = 'inline-block';
+    $editInput.style.display = 'none';
+  }
+};
+
+const editTodo = (e) => {
+  if (e.target.className !== 'edit-confirm') return;
+  const $item = e.target.closest('.todo-item');
+  const id = $item.dataset.id;
+  const $editInput = $item.querySelector('.edit-input');
+  console.log($editInput.value);
+  const content = $editInput.value;
+
+  request
+    .patch(`${URL}/${id}`, { content })
+    .then(getTodos)
+    .catch((error) => console.error(error.message));
+};
+
+const init = () => {
+  window.addEventListener('DOMContentLoaded', getTodos);
+  $form.addEventListener('submit', addTodoItem);
+  $todoContainer.addEventListener('click', deleteTodoItem);
+  $todoContainer.addEventListener('click', checkTodoComplete);
+  $todoContainer.addEventListener('click', changeEditMode);
+  $todoContainer.addEventListener('click', editTodo);
+  $clearBtn.addEventListener('click', clearAllTodos);
+};
+
+init();
