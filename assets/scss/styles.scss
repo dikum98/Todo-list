@@ -1,5 +1,6 @@
 @import './base/reset';
 
+// universal
 body {
   font-family: 'Hubballi', cursive;
   height: 100vh;
@@ -16,15 +17,20 @@ label {
 }
 
 button i {
+  margin-right: 6px;
   font-size: 16px;
+  color: wheat;
+  pointer-events: none;
 }
 
+// header
 .title {
   font-size: 60px;
   letter-spacing: 2px;
   padding: 70px 0 20px 0;
 }
 
+// form
 .descriptuon {
   display: inline-block;
   padding-bottom: 8px;
@@ -43,12 +49,19 @@ button i {
   color: wheat;
 }
 
-// task.
+// clear button
+.clear-btn {
+  margin-top: 20px;
+  color: wheat;
+}
+
+// todo list container
 .task-container {
   margin-top: 40px;
 }
 
-.task-list {
+// todo item
+.todo-item {
   margin-bottom: 15px;
 }
 
@@ -59,20 +72,29 @@ button i {
 
 label {
   font-size: 24px;
+  margin-right: 6px;
   border-bottom: 1px solid wheat;
 }
 
-.edit {
+.edit-input {
+  display: none;
+  background: none;
+  outline: none;
+  border-bottom: 1px solid wheat;
   color: wheat;
-  margin-right: 6px;
+}
+
+// edit button
+.edit {
+}
+
+.edit-confirm {
+  display: none;
+}
+
+.edit-cancel {
+  display: none;
 }
 
 .delete {
-  color: wheat;
-  margin-left: 6px;
-}
-
-.clear-btn {
-  margin-top: 20px;
-  color: wheat;
 }

@@ -193,7 +193,10 @@ label {
 }
 
 button i {
+  margin-right: 6px;
   font-size: 16px;
+  color: wheat;
+  pointer-events: none;
 }
 
 .title {
@@ -220,11 +223,16 @@ button i {
   color: wheat;
 }
 
+.clear-btn {
+  margin-top: 20px;
+  color: wheat;
+}
+
 .task-container {
   margin-top: 40px;
 }
 
-.task-list {
+.todo-item {
   margin-bottom: 15px;
 }
 
@@ -235,20 +243,22 @@ button i {
 
 label {
   font-size: 24px;
+  margin-right: 6px;
   border-bottom: 1px solid wheat;
 }
 
-.edit {
+.edit-input {
+  display: none;
+  background: none;
+  outline: none;
+  border-bottom: 1px solid wheat;
   color: wheat;
-  margin-right: 6px;
 }
 
-.delete {
-  color: wheat;
-  margin-left: 6px;
+.edit-confirm {
+  display: none;
 }
 
-.clear-btn {
-  margin-top: 20px;
-  color: wheat;
+.edit-cancel {
+  display: none;
 }
