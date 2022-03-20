@@ -1,5 +1,7 @@
 # 투두리스트
 
+![스크린샷 2022-03-20 오후 12.08.46.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ec109f54-6df2-4fb7-8d59-e09c2cbc5ffc/스크린샷_2022-03-20_오후_12.08.46.png)
+
 ## json-server를 활용한 비동기 통신
 
 [https://github.com/typicode/json-server](https://github.com/typicode/json-server)
